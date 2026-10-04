@@ -5,6 +5,8 @@ const authRoutes = require('./routes/authRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const registrationRoutes = require('./routes/registrationRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
+const feedbackRoutes = require('./routes/feedbackRoutes');
+const recommendationRoutes = require('./routes/recommendationRoutes');
 
 const app = express();
 
@@ -28,6 +30,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/registrations', registrationRoutes);
 app.use('/api/attendance', attendanceRoutes);
+app.use('/api/feedback', feedbackRoutes);
+app.use('/api/recommendations', recommendationRoutes);
 
 // 404 Route Handler
 app.use((req, res) => {

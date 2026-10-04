@@ -132,4 +132,26 @@ export const markAttendanceApi = async (eventId, studentId, status) => {
   return response.data;
 };
 
+// Feedback API Calls
+export const submitFeedbackApi = async (eventId, feedbackData) => {
+  const response = await api.post(`/feedback/${eventId}`, feedbackData);
+  return response.data;
+};
+
+export const getEventFeedbackApi = async (eventId) => {
+  const response = await api.get(`/feedback/event/${eventId}`);
+  return response.data;
+};
+
+export const getMyFeedbackApi = async () => {
+  const response = await api.get('/feedback/my');
+  return response.data;
+};
+
+// Recommendation API Calls
+export const getRecommendationsApi = async () => {
+  const response = await api.get('/recommendations');
+  return response.data;
+};
+
 export default api;

@@ -10,6 +10,8 @@ import {
   getEventByIdApi,
   registerForEventApi,
   checkRegistrationStatusApi,
+  submitFeedbackApi,
+  getEventFeedbackApi,
 } from '../services/api';
 
 export default function EventDetailsPage() {
@@ -292,8 +294,172 @@ export default function EventDetailsPage() {
               )}
             </div>
           </div>
+
+          {/* Feedback & Ratings Section */}
+          <FeedbackSection
+            eventId={id}
+            isStudent={isStudent}
+            isRegistered={isRegistered}
+            isAuthenticated={isAuthenticated}
+          />
         </div>
       </Card>
+    </div>
+  );
+}
+
+// Sub-component: Feedback & Ratings Section
+function FeedbackSection({ eventId, isStudent, isRegistered, isAuthenticated }) {
+  const [feedbacks, setFeedbacks] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  // Form state
+  const [rating, setRating] = useState(5);
+  const [comments, setComments] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [feedbackSuccess, setFeedbackSuccess] = useState(null);
+  const [feedbackError, setFeedbackError] = useState(null);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  useEffect(() => {
+    fetchFeedback();
+  }, [eventId]);
+
+  const fetchFeedback = async () => {
+    setLoading(true);
+    try {
+      const res = await getEventFeedbackApi(eventId);
+      if (res.success) {
+        setFeedbacks(res.data || []);
+        setAvgRating(res.averageRating || 0);
+        setTotalCount(res.totalFeedbackCount || 0);
+      }
+    } catch (err) {
+      // Non-blocking
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmitFeedback = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setFeedbackError(null);
+    setFeedbackSuccess(null);
+
+    try {
+      const res = await submitFeedbackApi(eventId, { rating, comments });
+      if (res.success) {
+        setFeedbackSuccess('Thank you! Your feedback has been submitted successfully.');
+        setHasSubmitted(true);
+        setComments('');
+        fetchFeedback();
+      }
+    } catch (err) {
+      setFeedbackError(err.response?.data?.message || 'Failed to submit feedback');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="pt-6 border-t border-slate-800 space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-bold text-slate-100">Student Reviews & Ratings</h3>
+          <p className="text-xs text-slate-400">Feedback submitted by enrolled student participants</p>
+        </div>
+        <div className="flex items-center space-x-2 bg-slate-900 px-4 py-2 rounded-xl border border-slate-800">
+          <span className="text-xl text-amber-400">★</span>
+          <span className="text-lg font-extrabold text-slate-100">{avgRating > 0 ? avgRating : 'N/A'}</span>
+          <span className="text-xs text-slate-400">({totalCount} {totalCount === 1 ? 'review' : 'reviews'})</span>
+        </div>
+      </div>
+
+      {/* Submit Feedback Form for Registered Student */}
+      {isAuthenticated && isStudent && isRegistered && !hasSubmitted && (
+        <form onSubmit={handleSubmitFeedback} className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <h4 className="text-sm font-bold text-slate-200">Rate & Review This Event</h4>
+
+          {feedbackSuccess && (
+            <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs">
+              {feedbackSuccess}
+            </div>
+          )}
+          {feedbackError && (
+            <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs">
+              {feedbackError}
+            </div>
+          )}
+
+          <div className="flex items-center space-x-3">
+            <span className="text-xs text-slate-400 font-medium">Your Rating:</span>
+            <div className="flex space-x-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  type="button"
+                  key={star}
+                  onClick={() => setRating(star)}
+                  className={`text-xl transition-transform hover:scale-110 ${
+                    star <= rating ? 'text-amber-400' : 'text-slate-600'
+                  }`}
+                >
+                  ★
+                </button>
+              ))}
+            </div>
+            <span className="text-xs font-semibold text-amber-400">({rating} / 5 Stars)</span>
+          </div>
+
+          <div>
+            <textarea
+              rows={3}
+              placeholder="Share your thoughts about this event (optional)..."
+              value={comments}
+              onChange={(e) => setComments(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+
+          <Button variant="primary" size="sm" loading={submitting} type="submit">
+            Submit Feedback ★
+          </Button>
+        </form>
+      )}
+
+      {/* Reviews List */}
+      {loading ? (
+        <div className="text-xs text-slate-400">Loading reviews...</div>
+      ) : feedbacks.length === 0 ? (
+        <div className="p-6 text-center rounded-2xl bg-slate-950/40 border border-slate-800 text-xs text-slate-400">
+          No feedback submitted for this event yet.
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {feedbacks.map((item) => (
+            <div key={item._id} className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2 text-xs">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <span className="font-semibold text-slate-200">{item.student?.name || 'Student'}</span>
+                  {item.student?.department && (
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">
+                      {item.student.department}
+                    </span>
+                  )}
+                </div>
+                <div className="flex text-amber-400">
+                  {Array.from({ length: item.rating }).map((_, i) => (
+                    <span key={i}>★</span>
+                  ))}
+                </div>
+              </div>
+              {item.comments && <p className="text-slate-300 text-xs">{item.comments}</p>}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
