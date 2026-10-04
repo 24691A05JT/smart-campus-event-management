@@ -154,4 +154,20 @@ export const getRecommendationsApi = async () => {
   return response.data;
 };
 
+// Analytics API Calls (Organizer/Admin)
+export const getOrganizerAnalyticsApi = async () => {
+  const response = await api.get('/analytics/organizer');
+  return response.data;
+};
+
+export const getAdminAnalyticsApi = async () => {
+  const response = await api.get('/analytics/admin');
+  return response.data;
+};
+
+export const getAnalyticsApi = async () => {
+  const response = await api.get('/analytics');
+  return response.data;
+};
+
 export default api;

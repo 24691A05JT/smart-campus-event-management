@@ -13,6 +13,7 @@ import EventDetailsPage from './pages/EventDetailsPage';
 import MyRegistrationsPage from './pages/MyRegistrationsPage';
 import EventParticipantsPage from './pages/EventParticipantsPage';
 import RecommendationsPage from './pages/RecommendationsPage';
+import AnalyticsPage from './pages/AnalyticsPage';
 import PlaceholderPage from './pages/PlaceholderPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 
@@ -43,16 +44,7 @@ function App() {
 
             {/* Shared Analytics Route */}
             <Route element={<ProtectedRoute allowedRoles={['organizer', 'admin']} />}>
-              <Route
-                path="analytics"
-                element={
-                  <PlaceholderPage
-                    title="Engagement Analytics"
-                    subtitle="Event participation metrics, category breakdowns, and attendance stats"
-                    featureName="Analytics Engine"
-                  />
-                }
-              />
+              <Route path="analytics" element={<AnalyticsPage />} />
             </Route>
 
             {/* Admin Protected Routes */}
