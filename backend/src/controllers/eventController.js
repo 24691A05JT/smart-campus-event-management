@@ -525,6 +525,20 @@ const approveEvent = async (req, res, next) => {
 
     await event.save();
 
+    // Trigger notification for organizer
+    try {
+      const { createNotification } = require('../services/notificationService');
+      await createNotification({
+        userId: event.organizer,
+        title: 'Event Approved ✅',
+        message: `Your event "${event.title}" has been approved by campus administration.`,
+        type: 'event_approval',
+        link: '/my-events',
+      });
+    } catch (notifErr) {
+      console.warn('Event approval notification warning:', notifErr.message);
+    }
+
     return res.status(200).json({
       success: true,
       message: 'Event approved successfully',
@@ -563,6 +577,20 @@ const rejectEvent = async (req, res, next) => {
     event.rejectionReason = rejectionReason ? String(rejectionReason).trim() : 'Event rejected by Administrator';
 
     await event.save();
+
+    // Trigger notification for organizer
+    try {
+      const { createNotification } = require('../services/notificationService');
+      await createNotification({
+        userId: event.organizer,
+        title: 'Event Rejected ❌',
+        message: `Your event "${event.title}" was rejected: ${event.rejectionReason}`,
+        type: 'event_rejection',
+        link: '/my-events',
+      });
+    } catch (notifErr) {
+      console.warn('Event rejection notification warning:', notifErr.message);
+    }
 
     return res.status(200).json({
       success: true,

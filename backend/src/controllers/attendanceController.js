@@ -166,6 +166,23 @@ const markAttendance = async (req, res, next) => {
       await registration.populate('attendanceMarkedBy', 'name email');
     }
 
+    // Trigger automatic in-app notification for the student
+    try {
+      const { createNotification } = require('../services/notificationService');
+      const studentObjId = registration.student && registration.student._id ? registration.student._id : studentId;
+      const studentEmail = registration.student ? registration.student.email : null;
+      await createNotification({
+        userId: studentObjId,
+        title: 'Attendance Marked 📌',
+        message: `Your attendance for "${event.title}" was marked as ${status.toUpperCase()}.`,
+        type: 'attendance',
+        link: '/my-registrations',
+        recipientEmail: studentEmail,
+      });
+    } catch (notifErr) {
+      console.warn('Attendance notification warning:', notifErr.message);
+    }
+
     return res.status(200).json({
       success: true,
       message: `Attendance marked as '${status}' successfully`,

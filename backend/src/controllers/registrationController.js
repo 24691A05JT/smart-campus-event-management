@@ -94,6 +94,21 @@ const registerForEvent = async (req, res, next) => {
       });
     }
 
+    // Trigger automatic in-app notification
+    try {
+      const { createNotification } = require('../services/notificationService');
+      await createNotification({
+        userId: req.user._id,
+        title: 'Registration Successful 🎉',
+        message: `You have successfully registered for "${event.title}".`,
+        type: 'registration',
+        link: '/my-registrations',
+        recipientEmail: req.user.email,
+      });
+    } catch (notifErr) {
+      console.warn('Registration notification warning:', notifErr.message);
+    }
+
     return res.status(201).json({
       success: true,
       message: 'Event registration completed successfully',

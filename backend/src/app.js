@@ -8,6 +8,8 @@ const attendanceRoutes = require('./routes/attendanceRoutes');
 const feedbackRoutes = require('./routes/feedbackRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
+const certificateRoutes = require('./routes/certificateRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 
 const app = express();
 
@@ -34,6 +36,8 @@ app.use('/api/attendance', attendanceRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/certificates', certificateRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // 404 Route Handler
 app.use((req, res) => {
