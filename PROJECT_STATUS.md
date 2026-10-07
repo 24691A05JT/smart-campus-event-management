@@ -4,7 +4,7 @@
 
 ### **Overview**
 - **Project Name:** Smart Campus Event & Activity Management System
-- **Current Day:** Day 12 Completed (Full Integration Testing, Bug Fixing & Stability) ✅
+- **Current Day:** Day 13 Completed (Production Deployment Preparation) ✅
 - **Overall Timeline:** 14 Days
 - **Overall Status:** On Track 🟢
 
@@ -26,8 +26,8 @@
 | **Day 10** | Digital PDF Certificate generation + Notifications | ✅ Completed |
 | **Day 11** | Master Admin Dashboard & User Management | ✅ Completed |
 | **Day 12** | Complete integration testing and bug fixing | ✅ Completed |
-| **Day 13** | Deployment preparation (Render backend + Vercel frontend) | ⏳ Next Up |
-| **Day 14** | Final testing, UI polish, documentation & viva preparation | 🔴 Pending |
+| **Day 13** | Deployment preparation (Render backend + Vercel frontend) | ✅ Completed |
+| **Day 14** | Final testing, UI polish, documentation & viva preparation | ⏳ Next Up |
 
 ---
 
@@ -86,10 +86,14 @@
 - [x] Create `AdminEventsPage.jsx` (`/admin/events`) featuring search, status filter tabs (Pending, Approved, Rejected), category filters, event detail modal, and direct approval/rejection actions.
 - [x] Update `App.jsx` mounting protected routes for `/admin/dashboard`, `/admin/users`, `/admin/events`, and `/pending-approvals` under `allowedRoles={['admin']}`.
 - [x] Update `Navbar.jsx` with role-aware Admin navigation tabs.
+- [x] Configure backend dynamic CORS options supporting `process.env.FRONTEND_URL` alongside local development origins (`app.js`).
+- [x] Update `db.js` MONGO_URI validation allowing valid MongoDB Atlas cluster hostnames (`cluster0.mongodb.net`).
+- [x] Document production environment variables in `backend/.env.example` (`PORT`, `NODE_ENV`, `MONGO_URI`, `JWT_SECRET`, `FRONTEND_URL`).
+- [x] Create Render deployment blueprint `backend/render.yaml` with build/start commands and health check route `/api/health`.
+- [x] Update `frontend/src/services/api.js` supporting `import.meta.env.VITE_API_URL` and `import.meta.env.VITE_API_BASE_URL`.
+- [x] Create `frontend/vercel.json` configuring single page application client-side routing rewrites (`/(.*)` -> `/index.html`).
+- [x] Document production frontend environment variable in `frontend/.env.example` (`VITE_API_URL`).
 - [x] Execute complete backend test suite runner (`npm test`) across all 10 test suites (126/126 tests passing).
-- [x] Perform full end-to-end integration audit across Student, Organizer, and Admin user journeys.
-- [x] Audit RBAC & security boundaries across all protected APIs and frontend routes (password exclusion, 401/403 responses).
-- [x] Audit recommendation engine, analytics calculations, certificate PDF generation, and in-app notification triggers.
 - [x] Verify frontend production build (`npm run build` exiting cleanly with 923 transformed modules and 0 errors).
 
 ---
@@ -171,7 +175,7 @@
 
 ---
 
-### **Next Task (Day 13)**
-- Deployment preparation (Render backend + Vercel frontend).
+### **Next Task (Day 14)**
+- Final testing, UI polish, documentation & viva preparation.
 
 

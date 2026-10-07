@@ -8,8 +8,7 @@ const connectDB = async () => {
       !mongoURI ||
       mongoURI.includes('YOUR_MONGODB_ATLAS_URI') ||
       mongoURI.includes('<username>') ||
-      mongoURI.includes('<password>') ||
-      mongoURI.includes('cluster0.mongodb.net')
+      mongoURI.includes('<password>')
     ) {
       console.warn('⚠️ MONGO_URI environment variable is not configured with a valid MongoDB Atlas connection string.');
       console.warn('⚠️ Please update MONGO_URI in backend/.env with your real MongoDB Atlas connection URI.');
