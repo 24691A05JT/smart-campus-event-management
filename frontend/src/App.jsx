@@ -15,7 +15,9 @@ import EventParticipantsPage from './pages/EventParticipantsPage';
 import RecommendationsPage from './pages/RecommendationsPage';
 import CertificatesPage from './pages/CertificatesPage';
 import AnalyticsPage from './pages/AnalyticsPage';
-import PlaceholderPage from './pages/PlaceholderPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import AdminUsersPage from './pages/AdminUsersPage';
+import AdminEventsPage from './pages/AdminEventsPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 
 function App() {
@@ -51,18 +53,12 @@ function App() {
 
             {/* Admin Protected Routes */}
             <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+              <Route path="admin/dashboard" element={<AdminDashboardPage />} />
+              <Route path="admin/users" element={<AdminUsersPage />} />
+              <Route path="users" element={<AdminUsersPage />} />
+              <Route path="admin/events" element={<AdminEventsPage />} />
               <Route path="pending-approvals" element={<PendingApprovalsPage />} />
-              <Route path="all-events" element={<BrowseEventsPage />} />
-              <Route
-                path="users"
-                element={
-                  <PlaceholderPage
-                    title="User Administration"
-                    subtitle="Campus student, faculty, and administrator account management"
-                    featureName="User Management Console"
-                  />
-                }
-              />
+              <Route path="all-events" element={<AdminEventsPage />} />
             </Route>
           </Route>
         </Routes>

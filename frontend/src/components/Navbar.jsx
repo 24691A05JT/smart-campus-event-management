@@ -49,10 +49,11 @@ export default function Navbar() {
         ];
       case 'admin':
         return [
-          { label: 'Dashboard', path: '/' },
-          { label: 'Event Approvals', path: '/pending-approvals' },
-          { label: 'Campus Events', path: '/all-events' },
-          { label: 'Users', path: '/users' },
+          { label: 'Admin Dashboard', path: '/admin/dashboard' },
+          { label: 'Manage Users', path: '/admin/users' },
+          { label: 'Manage Events', path: '/admin/events' },
+          { label: 'Approvals', path: '/pending-approvals' },
+          { label: 'Analytics', path: '/analytics' },
         ];
       default:
         return [{ label: 'Dashboard', path: '/' }];

@@ -214,4 +214,15 @@ export const deleteNotificationApi = async (id) => {
   return response.data;
 };
 
+// Admin Management API Calls
+export const getAllEventsApi = async (params = {}) => {
+  const response = await api.get('/events/all', { params });
+  return response.data;
+};
+
+export const getAdminUsersApi = async (params = {}) => {
+  const response = await api.get('/admin/users', { params });
+  return response.data;
+};
+
 export default api;
