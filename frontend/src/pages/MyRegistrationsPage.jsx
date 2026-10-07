@@ -135,17 +135,26 @@ export default function MyRegistrationsPage() {
 
                 <div className="pt-4 mt-4 border-t border-slate-800 flex items-center space-x-2">
                   <Link to={`/events/${evt._id}`} className="flex-1">
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full text-xs">
                       View Event
                     </Button>
                   </Link>
-                  <Button
-                    variant="dangerOutline"
-                    size="sm"
-                    onClick={() => handleCancel(evt._id)}
-                  >
-                    Cancel
-                  </Button>
+
+                  {reg.attendanceStatus === 'present' ? (
+                    <Link to="/certificates" className="flex-1">
+                      <Button variant="primary" size="sm" className="w-full text-xs bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white border-none shadow-md">
+                        🎓 Certificate
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button
+                      variant="dangerOutline"
+                      size="sm"
+                      onClick={() => handleCancel(evt._id)}
+                    >
+                      Cancel
+                    </Button>
+                  )}
                 </div>
               </Card>
             );

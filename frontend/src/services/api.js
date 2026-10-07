@@ -170,4 +170,48 @@ export const getAnalyticsApi = async () => {
   return response.data;
 };
 
+// Certificate API Calls
+export const generateCertificateApi = async (eventId) => {
+  const response = await api.post(`/certificates/${eventId}/generate`);
+  return response.data;
+};
+
+export const getMyCertificatesApi = async () => {
+  const response = await api.get('/certificates/my');
+  return response.data;
+};
+
+export const getCertificateByIdApi = async (certificateId) => {
+  const response = await api.get(`/certificates/${certificateId}`);
+  return response.data;
+};
+
+export const downloadCertificatePdfBlob = async (certificateId) => {
+  const response = await api.get(`/certificates/${certificateId}/download`, {
+    responseType: 'blob',
+  });
+  return response.data;
+};
+
+// Notification API Calls
+export const getMyNotificationsApi = async () => {
+  const response = await api.get('/notifications');
+  return response.data;
+};
+
+export const markNotificationReadApi = async (id) => {
+  const response = await api.put(`/notifications/${id}/read`);
+  return response.data;
+};
+
+export const markAllNotificationsReadApi = async () => {
+  const response = await api.put('/notifications/read-all');
+  return response.data;
+};
+
+export const deleteNotificationApi = async (id) => {
+  const response = await api.delete(`/notifications/${id}`);
+  return response.data;
+};
+
 export default api;

@@ -13,6 +13,7 @@ import EventDetailsPage from './pages/EventDetailsPage';
 import MyRegistrationsPage from './pages/MyRegistrationsPage';
 import EventParticipantsPage from './pages/EventParticipantsPage';
 import RecommendationsPage from './pages/RecommendationsPage';
+import CertificatesPage from './pages/CertificatesPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import PlaceholderPage from './pages/PlaceholderPage';
 import ProtectedRoute from './routes/ProtectedRoute';
@@ -32,6 +33,7 @@ function App() {
             {/* Student Protected Routes */}
             <Route element={<ProtectedRoute allowedRoles={['student', 'admin']} />}>
               <Route path="my-registrations" element={<MyRegistrationsPage />} />
+              <Route path="certificates" element={<CertificatesPage />} />
               <Route path="recommendations" element={<RecommendationsPage />} />
             </Route>
 
