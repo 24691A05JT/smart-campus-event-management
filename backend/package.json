@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "node tests/unit.test.js && node tests/eventUnit.test.js && node tests/integration.test.js && node tests/eventIntegration.test.js",
+    "test": "node tests/unit.test.js && node tests/eventUnit.test.js && node tests/authComprehensive.test.js && node tests/eventComprehensive.test.js && node tests/registrationComprehensive.test.js && node tests/attendanceComprehensive.test.js && node tests/recommendationAndFeedbackComprehensive.test.js && node tests/analyticsComprehensive.test.js && node tests/certificateAndNotificationComprehensive.test.js && node tests/adminComprehensive.test.js",
     "test:unit": "node tests/unit.test.js && node tests/eventUnit.test.js"
   },
   "keywords": [
